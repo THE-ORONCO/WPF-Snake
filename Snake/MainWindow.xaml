@@ -9,7 +9,7 @@
     <Grid>
         <Button Content="Button" 
                 HorizontalAlignment="Left" 
-                x:Name="StartButton" RenderTransformOrigin="0.5,0.5" FontFamily="Alef" Click="clicked">
+                x:Name="StartButton" RenderTransformOrigin="0.5,0.5" FontFamily="Alef" Click="clicked" Margin="233,0,0,0">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
