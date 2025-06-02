@@ -12,3 +12,7 @@
   - [ ] kann umgelenkt werden,
   - [ ] wenn sie sich selbst trifft stirbt sie,
 - [ ] (Punkte für jede Frucht)
+- [ ] Art Design
+  - [ ] süße Schlange
+  - [ ] Wand Texturen
+  - [ ] lecker Apfel
