@@ -10,15 +10,16 @@ namespace Snake.Models
 
     public abstract class SnakeSegment : GridEntity
     {
-        public event EventHandler<Vector>? PositionChanged;
+        public event EventHandler<Vector>? MovedInDirection;
         public SnakeSegment? Next { get; set; }
         public Vector position { get; set; }
         public Vector Position
         {
             get => position; set
             {
+                var oldPosition = position;
                 position = value;
-                PositionChanged?.Invoke(this, position);
+                MovedInDirection?.Invoke(this, oldPosition - position);
             }
         }
 

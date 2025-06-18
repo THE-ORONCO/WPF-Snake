@@ -19,9 +19,10 @@ namespace Snake.ViewModels
 
         private readonly PlayField _playField;
 
+        public int GridSize { get; set; } = 20;
+
         public ObservableCollection<SnakeSegmentViewModel> Snake { get; set; }
         public ObservableCollection<FruitViewModel> Fruits { get; set; }
-
         public ICommand MoveRight { get; set; }
 
         public ICommand MoveLeft { get; set; }
@@ -32,9 +33,14 @@ namespace Snake.ViewModels
 
         public PlayFieldViewModel()
         {
-            _playField = new PlayField(new Head(position: new(64, 64), direction: Vector.RIGHT, next: null), []);
+            _playField = new PlayField(new Head(position: new(1, 1), direction: Vector.RIGHT, next: null), []);
             _playField.SegmentAdded += SegmentAdded;
-            Snake = [new SnakeSegmentViewModel(_playField.SnakeHead)];
+            SnakeSegmentViewModel head = new (){ 
+                Segment = _playField.SnakeHead,
+                GridSize = GridSize,
+            };
+            
+            Snake = [head];
             Fruits = [];
 
             //playField.SnakeMoved += OnPropertyChanged;
@@ -44,9 +50,6 @@ namespace Snake.ViewModels
             MoveDown = new DirectionalCommand(Direction.DOWN, _playField.SetDirection, _playField.CanGoDirection);
         }
 
-        private void SegmentAdded(object? sender, SnakeSegment snakeSegment)
-        {
-            Snake.Add(new SnakeSegmentViewModel(snakeSegment));
-        }
+        private void SegmentAdded(object? sender, SnakeSegment snakeSegment) => Snake.Add(new SnakeSegmentViewModel { Segment = snakeSegment, GridSize = GridSize });
     }
 }

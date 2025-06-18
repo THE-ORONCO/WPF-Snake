@@ -17,6 +17,7 @@ namespace Snake.Models
         COLLIDED,
         MOVED,
     }
+
     public class PlayField
     {
         public event EventHandler<List<Fruit>>? AteFruits;
@@ -24,6 +25,8 @@ namespace Snake.Models
         public event EventHandler<Fruit>? FruitAdded;
 
         private readonly DispatcherTimer _timer = new();
+
+        private Vector nextDirection = Vector.RIGHT;
 
 
         public Head SnakeHead { get; set; }
@@ -33,8 +36,9 @@ namespace Snake.Models
         {
             SnakeHead = snakeHead;
             Fruits = fruits;
+            nextDirection = SnakeHead.Direction;
 
-            _timer.Interval = TimeSpan.FromMilliseconds(32);
+            _timer.Interval = TimeSpan.FromMilliseconds(500);
             _timer.Tick += TimerTick;
             _timer.Start();
         }
@@ -47,6 +51,7 @@ namespace Snake.Models
 
         public Result Tick()
         {
+            SnakeHead.Direction = nextDirection;
 
             if (!SnakeHead.CanMove(SnakeHead.Direction))
             {
@@ -91,7 +96,7 @@ namespace Snake.Models
         public void SetDirection(Direction direction)
         {
             Trace.WriteLine($"Move {direction}");
-            SnakeHead.Direction = direction switch
+            nextDirection = direction switch
             {
                 Direction.UP => Vector.UP,
                 Direction.DOWN => Vector.DOWN,
