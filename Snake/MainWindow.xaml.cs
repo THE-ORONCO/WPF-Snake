@@ -34,39 +34,39 @@ namespace Snake
         public MainWindow()
         {
             InitializeComponent();
-            timer.Interval = TimeSpan.FromMilliseconds(1000);
-            timer.Tick += Timer_Tick;
-            timer.Start();
+            //timer.Interval = TimeSpan.FromMilliseconds(1000);
+            //timer.Tick += Timer_Tick;
+            //timer.Start();
 
-            var cellWidth = DrawArea.Width / level.GetLength(1);
-            var cellHeight = DrawArea.Height / level.GetLength(0);
+            //var cellWidth = DrawArea.Width / level.GetLength(1);
+            //var cellHeight = DrawArea.Height / level.GetLength(0);
 
 
-            for (var x = 0; x < level.GetLength(1); x++)
-            {
+            //for (var x = 0; x < level.GetLength(1); x++)
+            //{
 
-                for (var y = 0; y < level.GetLength(0); y++)
-                {
+            //    for (var y = 0; y < level.GetLength(0); y++)
+            //    {
 
-                    var cell = new Canvas();
-                    if (level[x, y] == '.')
-                    {
-                        cell.Background = Brushes.Blue;
-                    }
-                    else
-                    {
-                        cell.Background = Brushes.Green;
-                    }
+            //        var cell = new Canvas();
+            //        if (level[x, y] == '.')
+            //        {
+            //            cell.Background = Brushes.Blue;
+            //        }
+            //        else
+            //        {
+            //            cell.Background = Brushes.Green;
+            //        }
 
-                    cell.Height = cellHeight;
-                    cell.Width = cellWidth;
-                    Canvas.SetTop(cell, y * cellWidth);
-                    Canvas.SetLeft(cell, x * cellHeight);
+            //        cell.Height = cellHeight;
+            //        cell.Width = cellWidth;
+            //        Canvas.SetTop(cell, y * cellWidth);
+            //        Canvas.SetLeft(cell, x * cellHeight);
 
-                    DrawArea.Children.Add(cell);
-                    view[(x, y)] = cell;
-                }
-            }
+            //        DrawArea.Children.Add(cell);
+            //        view[(x, y)] = cell;
+            //    }
+            //}
 
         }
 

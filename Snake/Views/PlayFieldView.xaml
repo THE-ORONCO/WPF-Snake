@@ -21,7 +21,26 @@
         <KeyBinding Key="D" Command="{Binding MoveRight}"/>
         <KeyBinding Key="Right" Command="{Binding MoveRight}"/>
     </UserControl.InputBindings>
-    <Grid>
-        <Button Content="AAAAAAAAAAAAAAA" />
-    </Grid>
+    <Canvas Width="Auto" Height="Auto">
+        <ItemsControl ItemsSource="{Binding Snake}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:SnakeSegmentView Content="{Binding SnakeSegment}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Canvas>
+    
 </UserControl>

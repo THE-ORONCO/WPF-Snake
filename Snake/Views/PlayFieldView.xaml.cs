@@ -26,6 +26,14 @@ namespace Snake.Views
         public PlayFieldView()
         {
             InitializeComponent();
+            this.Loaded += (_a, _b) =>
+            {
+                Window w = Window.GetWindow(this);
+                foreach (InputBinding binding in InputBindings)
+                {
+                    w.InputBindings.Add(binding);
+                }
+            };
         }
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)

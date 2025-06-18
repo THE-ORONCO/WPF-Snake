@@ -19,10 +19,11 @@ namespace Snake.Models
     }
     public class PlayField
     {
-        public event EventHandler<List<Fruit>>? AteFruit;
-        public event EventHandler<List<SnakeSegment>>? SnakeMoved;
+        public event EventHandler<List<Fruit>>? AteFruits;
+        public event EventHandler<SnakeSegment>? SegmentAdded;
+        public event EventHandler<Fruit>? FruitAdded;
 
-        private DispatcherTimer _timer = new DispatcherTimer();
+        private readonly DispatcherTimer _timer = new();
 
 
         public Head SnakeHead { get; set; }
@@ -33,7 +34,7 @@ namespace Snake.Models
             SnakeHead = snakeHead;
             Fruits = fruits;
 
-            _timer.Interval = TimeSpan.FromMilliseconds(1000);
+            _timer.Interval = TimeSpan.FromMilliseconds(32);
             _timer.Tick += TimerTick;
             _timer.Start();
         }
@@ -41,14 +42,6 @@ namespace Snake.Models
         private void TimerTick(object? sender, EventArgs e)
         {
             Tick();
-            List<SnakeSegment> segments = [];
-            SnakeSegment? segment = SnakeHead;
-            while (segment != null)
-            {
-                segments.Add(segment);
-                segment = segment.Next;
-            }
-            SnakeMoved?.Invoke(this, segments);
             Trace.WriteLine("Tick");
         }
 
@@ -65,8 +58,12 @@ namespace Snake.Models
 
             if (fruitsEaten.Count > 0)
             {
-                AteFruit?.Invoke(this, fruitsEaten);
-                fruitsEaten.ForEach(_ => SnakeHead.AddSegment(SnakeHead.Direction * -1));
+                fruitsEaten.ForEach(_ =>
+                {
+                    var addedSegment = SnakeHead.AddSegment(SnakeHead.Direction * -1);
+                    SegmentAdded?.Invoke(this, addedSegment);
+                    
+                });
 
                 SnakeHead.Move(SnakeHead.Direction);
                 Trace.WriteLine("Omnom!");
@@ -75,7 +72,7 @@ namespace Snake.Models
             else
             {
                 SnakeHead.Move(SnakeHead.Direction);
-                Trace.WriteLine("Slither");
+                Trace.WriteLine($"Slither {SnakeHead.Direction}");
                 return Result.MOVED;
             }
         }

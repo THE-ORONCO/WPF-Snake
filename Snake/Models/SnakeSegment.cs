@@ -10,24 +10,34 @@ namespace Snake.Models
 
     public abstract class SnakeSegment : GridEntity
     {
+        public event EventHandler<Vector>? PositionChanged;
         public SnakeSegment? Next { get; set; }
-        public Vector Position { get; set; }
+        public Vector position { get; set; }
+        public Vector Position
+        {
+            get => position; set
+            {
+                position = value;
+                PositionChanged?.Invoke(this, position);
+            }
+        }
 
         /// <summary>
         /// Adds a Segment as the child of this segment (or grandchild (or grandgrandchild ...)) in the specified direction.
         /// If it the segment already has a child we recurse deeper and add it to the child instead.
         /// </summary>
         /// <param name="backDirection"></param>
-        public void AddSegment(Vector backDirection)
+        public SnakeSegment AddSegment(Vector backDirection)
         {
             if (this.Next == null)
             {
                 this.Next = new Tail(this.Position + backDirection);
+                return this.Next;
             }
             else
             {
                 //TODO remove recursion
-                this.Next.AddSegment(this.Position - Next.Position);
+                return this.Next.AddSegment(this.Position - Next.Position);
             }
         }
 

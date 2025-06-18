@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Snake.Views
@@ -17,7 +18,7 @@ namespace Snake.Views
     /// <summary>
     /// Interaction logic for SnakeSegmentView.xaml
     /// </summary>
-    public partial class SnakeSegmentView : Window
+    public partial class SnakeSegmentView : UserControl
     {
         public SnakeSegmentView()
         {

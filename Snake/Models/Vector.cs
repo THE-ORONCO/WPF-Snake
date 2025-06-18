@@ -56,8 +56,8 @@ namespace Snake.Models
         public override string ToString() => $"({X}, {Y})";
 
 
-        public readonly static Vector UP = new(0, 1);
-        public readonly static Vector DOWN = new(0, -1);
+        public readonly static Vector UP = new(0, -1);
+        public readonly static Vector DOWN = new(0, 1);
         public readonly static Vector RIGHT = new(1, 0);
         public readonly static Vector LEFT = new(-1, 0);
 

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Snake.Models;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace Snake.ViewModels
 {
@@ -18,6 +19,8 @@ namespace Snake.ViewModels
 
         private readonly PlayField _playField;
 
+        public ObservableCollection<SnakeSegmentViewModel> Snake { get; set; }
+        public ObservableCollection<FruitViewModel> Fruits { get; set; }
 
         public ICommand MoveRight { get; set; }
 
@@ -29,7 +32,11 @@ namespace Snake.ViewModels
 
         public PlayFieldViewModel()
         {
-            _playField = new PlayField(new Head(position: new(1, 1), direction: Vector.RIGHT, next: null), []);
+            _playField = new PlayField(new Head(position: new(64, 64), direction: Vector.RIGHT, next: null), []);
+            _playField.SegmentAdded += SegmentAdded;
+            Snake = [new SnakeSegmentViewModel(_playField.SnakeHead)];
+            Fruits = [];
+
             //playField.SnakeMoved += OnPropertyChanged;
             MoveRight = new DirectionalCommand(Direction.RIGHT, _playField.SetDirection, _playField.CanGoDirection);
             MoveLeft = new DirectionalCommand(Direction.LEFT, _playField.SetDirection, _playField.CanGoDirection);
@@ -37,9 +44,9 @@ namespace Snake.ViewModels
             MoveDown = new DirectionalCommand(Direction.DOWN, _playField.SetDirection, _playField.CanGoDirection);
         }
 
-        public void PlayFieldUpdated([CallerMemberName] string? name = null)
+        private void SegmentAdded(object? sender, SnakeSegment snakeSegment)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            Snake.Add(new SnakeSegmentViewModel(snakeSegment));
         }
     }
 }

@@ -8,9 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
-        <Canvas x:Name="DrawArea" Width="100" Height="100"></Canvas>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="610,334,0,0" VerticalAlignment="Top" Click="start_button_clicked"/>
         <views:PlayFieldView />
     </Grid>
 
