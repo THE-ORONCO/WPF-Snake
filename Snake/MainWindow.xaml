@@ -4,27 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Snake"
+        xmlns:views="clr-namespace:Snake.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Button" 
-                HorizontalAlignment="Left" 
-                x:Name="StartButton" RenderTransformOrigin="0.5,0.5" FontFamily="Alef" Click="clicked" Margin="233,0,0,0">
-            <Button.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleY="-12.171"/>
-                    <RotateTransform/>
-                    <TranslateTransform Y="-4.273"/>
-                </TransformGroup>
-            </Button.RenderTransform>
-        </Button>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition>
-
-            </ColumnDefinition>
-
-        </Grid.ColumnDefinitions>
-
+        
+        <Canvas x:Name="DrawArea" Width="100" Height="100"></Canvas>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="610,334,0,0" VerticalAlignment="Top" Click="start_button_clicked"/>
+        <views:PlayFieldView />
     </Grid>
+
 </Window>
+
