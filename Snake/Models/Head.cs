@@ -12,7 +12,7 @@ namespace Snake.Models
 
         public Vector NextPosition { get => this.Position + this.Direction; }
 
-        public Head(Vector position, Vector direction, SnakeSegment? next)
+        public Head(Vector position, Vector direction, SnakeSegment? next = null)
         {
             Direction = direction;
             Next = next;

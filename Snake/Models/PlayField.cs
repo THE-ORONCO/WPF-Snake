@@ -16,6 +16,7 @@ namespace Snake.Models
         ATE_FRUIT,
         COLLIDED,
         MOVED,
+        NOTHING,
     }
 
     public class PlayField
@@ -29,16 +30,20 @@ namespace Snake.Models
         private Vector nextDirection = Vector.RIGHT;
 
 
-        public Head SnakeHead { get; set; }
+        public Vector StartPosition { get; private set; } = new(1, 1);
+        public Vector StartDirection { get; private set; } = Vector.RIGHT;
+        public Head? SnakeHead { get; set; }
         public List<Fruit> Fruits { get; set; }
 
-        public PlayField(Head snakeHead, List<Fruit> fruits)
+        public PlayField(Head? snakeHead, List<Fruit> fruits)
         {
             SnakeHead = snakeHead;
             Fruits = fruits;
-            nextDirection = SnakeHead.Direction;
-
-            _timer.Interval = TimeSpan.FromMilliseconds(500);
+            if (SnakeHead != null)
+            {
+                nextDirection = SnakeHead.Direction;
+            }
+            _timer.Interval = TimeSpan.FromMilliseconds(16);
             _timer.Tick += TimerTick;
             _timer.Start();
         }
@@ -51,6 +56,11 @@ namespace Snake.Models
 
         public Result Tick()
         {
+            if (SnakeHead == null)
+            {
+                return Result.NOTHING;
+            }
+            
             SnakeHead.Direction = nextDirection;
 
             if (!SnakeHead.CanMove(SnakeHead.Direction))
@@ -67,7 +77,7 @@ namespace Snake.Models
                 {
                     var addedSegment = SnakeHead.AddSegment(SnakeHead.Direction * -1);
                     SegmentAdded?.Invoke(this, addedSegment);
-                    
+
                 });
 
                 SnakeHead.Move(SnakeHead.Direction);
@@ -79,6 +89,28 @@ namespace Snake.Models
                 SnakeHead.Move(SnakeHead.Direction);
                 Trace.WriteLine($"Slither {SnakeHead.Direction}");
                 return Result.MOVED;
+            }
+        }
+
+        public void AddSegments(uint segmentsToAdd)
+        {
+            for (uint i = 0; i < segmentsToAdd; i++)
+            {
+                AddSegment();   
+            }
+        }
+
+        public void AddSegment()
+        {
+            if (SnakeHead == null)
+            {
+                SnakeHead = new Head(StartPosition, StartDirection);
+                SegmentAdded?.Invoke(this, SnakeHead);
+            }
+            else
+            {
+                var addedSegment = SnakeHead.AddSegment(SnakeHead.Direction * -1);
+                SegmentAdded?.Invoke(this, addedSegment);
             }
         }
 

@@ -8,9 +8,10 @@ namespace Snake.Models
 {
     public class Tail : SnakeSegment
     {
-        public Tail(Vector position)
+        public Tail(Vector position, SnakeSegment? next = null)
         {
             Position = position;
+            Next = next;
         }
 
 
