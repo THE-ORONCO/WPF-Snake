@@ -91,5 +91,7 @@ namespace Snake.Models
                 nextPosition = oldPosition;
             }
         }
+
+        public bool ColidesWith(Vector position) => this.Position == position || (this.Next?.ColidesWith(position) ?? false);
     }
 }

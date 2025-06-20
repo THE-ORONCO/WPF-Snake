@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Snake.Models;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
+using System.Windows.Data;
 
 namespace Snake.ViewModels
 {
@@ -20,8 +21,15 @@ namespace Snake.ViewModels
         private readonly PlayField _playField;
 
         public int GridSize { get; set; } = 20;
+        public int Width => _playField.Width * GridSize;
+        public int Heigt => _playField.Height * GridSize;
 
+        public uint Score => _playField.Score;
+
+        private static object _snake_lock = new();
         public ObservableCollection<SnakeSegmentViewModel> Snake { get; set; } = [];
+
+        private static object _fruit_lock = new ();
         public ObservableCollection<FruitViewModel> Fruits { get; set; } = [];
         public ICommand MoveRight { get; set; }
 
@@ -33,13 +41,18 @@ namespace Snake.ViewModels
 
         public PlayFieldViewModel()
         {
-
             Tail tail = new(position: new(1, 1), next: null);
             Head head = new(position: new(1, 1), direction: Vector.RIGHT, next: tail);
 
+            BindingOperations.EnableCollectionSynchronization(Snake, _snake_lock);
+            BindingOperations.EnableCollectionSynchronization(Fruits, _fruit_lock);
+
             _playField = new PlayField(null, []);
             _playField.SegmentAdded += SegmentAdded;
-            _playField.AddSegments(20);
+            _playField.FruitAdded += FruitAdded;
+            _playField.FruitEaten += FruitEaten;
+            _playField.ScoreUpdated += (_, _) => PropertyChanged?.Invoke(this, new(nameof(Score)));
+            _playField.AddSegments(1);
 
             //playField.SnakeMoved += OnPropertyChanged;
             MoveRight = new DirectionalCommand(Direction.RIGHT, _playField.SetDirection, _playField.CanGoDirection);
@@ -49,5 +62,9 @@ namespace Snake.ViewModels
         }
 
         private void SegmentAdded(object? sender, SnakeSegment snakeSegment) => Snake.Add(new SnakeSegmentViewModel { Segment = snakeSegment, GridSize = GridSize });
+
+        private void FruitAdded(object? sender, Fruit fruit) => Fruits.Add(new FruitViewModel(fruit, GridSize));
+
+        private void FruitEaten(object? sender, Fruit fruit) => Fruits.Where(f => f.Fruit == fruit).ToList().ForEach(f => Fruits.Remove(f));
     }
 }

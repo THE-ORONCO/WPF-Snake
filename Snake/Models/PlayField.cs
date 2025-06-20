@@ -21,21 +21,33 @@ namespace Snake.Models
 
     public class PlayField
     {
-        public event EventHandler<List<Fruit>>? AteFruits;
+        public event EventHandler<Fruit>? FruitEaten;
         public event EventHandler<SnakeSegment>? SegmentAdded;
         public event EventHandler<Fruit>? FruitAdded;
+        public event EventHandler<uint>? ScoreUpdated;
 
-        private readonly DispatcherTimer _timer = new();
+        private readonly Timer _timer;
 
         private Vector nextDirection = Vector.RIGHT;
 
 
         public Vector StartPosition { get; private set; } = new(1, 1);
         public Vector StartDirection { get; private set; } = Vector.RIGHT;
+        public int Width {  get; private set; }
+        public int Height { get; private set; }
         public Head? SnakeHead { get; set; }
         public List<Fruit> Fruits { get; set; }
+        private uint score { get; set; } = 0;
+        public uint Score { get => score; set
+            {
+                score = value;
+                ScoreUpdated?.Invoke(this, score);
+            }
+        }
 
-        public PlayField(Head? snakeHead, List<Fruit> fruits)
+        private Random _random = new Random();
+
+        public PlayField(Head? snakeHead, List<Fruit> fruits, int width = 20, int height= 20)
         {
             SnakeHead = snakeHead;
             Fruits = fruits;
@@ -43,52 +55,73 @@ namespace Snake.Models
             {
                 nextDirection = SnakeHead.Direction;
             }
-            _timer.Interval = TimeSpan.FromMilliseconds(16);
-            _timer.Tick += TimerTick;
-            _timer.Start();
+            _timer = new Timer(_ => Tick(), null, TimeSpan.Zero, TimeSpan.FromMilliseconds(64));
+            Width = width;
+            Height = height;
         }
 
-        private void TimerTick(object? sender, EventArgs e)
+        private bool WithinBounds(Vector pos) => pos.X >= 0 && pos.X < Width && pos.Y >= 0 && pos.Y < Height;
+
+        public void Tick()
         {
-            Tick();
             Trace.WriteLine("Tick");
-        }
-
-        public Result Tick()
-        {
             if (SnakeHead == null)
             {
-                return Result.NOTHING;
+                return;
             }
-            
+
+            SpawnFruit();
+
             SnakeHead.Direction = nextDirection;
 
-            if (!SnakeHead.CanMove(SnakeHead.Direction))
+
+            if (!SnakeHead.CanMove(SnakeHead.Direction) || !WithinBounds(SnakeHead.NextPosition))
             {
                 Trace.WriteLine("Bonk!");
-                return Result.COLLIDED;
+                return; // TODO end game
             }
 
+            EatFruits();
+
+            Trace.WriteLine($"Slither {SnakeHead.Direction}");
+            SnakeHead.Move(SnakeHead.Direction);
+
+        }
+
+        private void EatFruits()
+        {
             var fruitsEaten = Fruits.FindAll(fruit => fruit.Position == SnakeHead.Position);
 
             if (fruitsEaten.Count > 0)
             {
-                fruitsEaten.ForEach(_ =>
+                fruitsEaten.ForEach(fruit =>
                 {
                     var addedSegment = SnakeHead.AddSegment(SnakeHead.Direction * -1);
                     SegmentAdded?.Invoke(this, addedSegment);
-
+                    FruitEaten?.Invoke(this, fruit);
+                    Score += 1;
+                    Fruits.Remove(fruit);
                 });
 
-                SnakeHead.Move(SnakeHead.Direction);
                 Trace.WriteLine("Omnom!");
-                return Result.ATE_FRUIT;
             }
-            else
+        }
+
+        private void SpawnFruit()
+        {
+            if (Fruits.Count == 0)
             {
-                SnakeHead.Move(SnakeHead.Direction);
-                Trace.WriteLine($"Slither {SnakeHead.Direction}");
-                return Result.MOVED;
+                var position = new Vector(_random.Next(Width), _random.Next(Height));
+
+                while (SnakeHead.ColidesWith(position))
+                { // TODO use a table of free spaces instead as this could run forever
+                    position = new Vector(_random.Next(Width), _random.Next(Height));
+                }
+
+                var fruit = new Fruit(position);
+
+                Fruits.Add(fruit);
+                FruitAdded?.Invoke(this, fruit);
             }
         }
 
@@ -116,8 +149,8 @@ namespace Snake.Models
 
         public bool CanGoDirection(Direction direction)
         {
-            Trace.WriteLine($"Can I move in {direction}? Snake looks {SnakeHead.Direction}.");
-            return SnakeHead.Direction switch
+            Trace.WriteLine($"Can I move in {direction}? Snake looks {SnakeHead?.Direction}.");
+            return SnakeHead?.Direction switch
             {
                 (0, 1) or (0, -1) when direction == Direction.LEFT || direction == Direction.RIGHT => true,
                 (1, 0) or (-1, 0) when direction == Direction.UP || direction == Direction.DOWN => true,

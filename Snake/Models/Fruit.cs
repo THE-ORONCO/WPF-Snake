@@ -9,5 +9,10 @@ namespace Snake.Models
     public class Fruit : GridEntity
     {
         public Vector Position { get ; set; }
+
+        public Fruit(Vector position)
+        {
+            Position = position;
+        }
     }
 }

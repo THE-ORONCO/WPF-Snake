@@ -10,19 +10,18 @@ namespace Snake.ViewModels
 {
     public class FruitViewModel
     {
-        private readonly Fruit _fruit;
+        public Fruit Fruit {  get; set; }
 
-        public int X { get => _fruit.Position.X; }
+        public int X  => (Fruit?.Position.X ?? 0) * GridSize;
 
-        public int Y { get => _fruit.Position.Y; }
+        public int Y => (Fruit?.Position.Y ?? 0) * GridSize;
+          
+        public int GridSize { get; set; }
 
-        public FruitViewModel(Fruit fruit)
+        public FruitViewModel(Fruit fruit, int gridSize)
         {
-            _fruit = fruit;
-        }
-
-        public FruitViewModel()
-        {
+            Fruit = fruit;
+            GridSize = gridSize;
         }
     }
 }
