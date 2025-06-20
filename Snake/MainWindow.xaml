@@ -6,10 +6,7 @@
         xmlns:local="clr-namespace:Snake"
         xmlns:views="clr-namespace:Snake.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <views:PlayFieldView/>
-    </Grid>
-
+        Title="MainWindow" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <views:PlayFieldView/>
 </Window>
 

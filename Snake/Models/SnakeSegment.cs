@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Snake.Models
 {
 
-    public abstract class SnakeSegment : GridEntity
+    public abstract class SnakeSegment : IGridEntity
     {
         public event EventHandler<Vector>? MovedInDirection;
         public SnakeSegment? Next { get; set; }
@@ -32,6 +32,7 @@ namespace Snake.Models
         {
             if (this.Next == null)
             {
+                // add a tail segment if none is present
                 this.Next = new Tail(this.Position + backDirection);
                 return this.Next;
             }
@@ -92,6 +93,11 @@ namespace Snake.Models
             }
         }
 
+        /// <summary>
+        /// Check if the segment (or any of its children) intersects a position on the grid.
+        /// </summary>
+        /// <param name="position">the position to check</param>
+        /// <returns>if a collision was detected</returns>
         public bool ColidesWith(Vector position) => this.Position == position || (this.Next?.ColidesWith(position) ?? false);
     }
 }

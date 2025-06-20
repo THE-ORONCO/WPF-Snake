@@ -11,45 +11,27 @@ namespace Snake.ViewModels
     {
         UP, DOWN, LEFT, RIGHT
     }
-    public class DirectionalCommand : ICommand
+
+    /// <summary>
+    ///  A comand that defines the operation of moving in a direction.
+    /// </summary>
+    /// <param name="dir">the direction that should be checked and applied by this command</param>
+    /// <param name="exec">the action that should be executed when the command can be applied</param>
+    /// <param name="can">the predicate that checks if the command can be executed</param>
+    public class DirectionalCommand(Direction dir, Action<Direction> exec, Predicate<Direction>? can = null) : ICommand
     {
+        
         public event EventHandler? CanExecuteChanged;
 
-        private readonly Direction _direction;
-        private readonly Predicate<Direction>? _canExecute;
-        private readonly Action<Direction> _execute;
+        private readonly Direction direction = dir;
+        private readonly Predicate<Direction>? canExecute = can;
+        private readonly Action<Direction> execute = exec;
+        
 
-        public DirectionalCommand(Direction direction, Action<Direction> execute)
-            : this(direction, execute, null)
-        {
-        }
+        public bool CanExecute(object? parameter) => canExecute?.Invoke(direction) ?? false;
 
-        public DirectionalCommand(Direction direction, Action<Direction> execute, Predicate<Direction>? canExecute)
-        {
-            _execute = execute;
-            _canExecute = canExecute;
-            _direction = direction;
-        }
+        public void Execute(object? parameter) => execute(direction);
 
-        public bool CanExecute(object? parameter)
-        {
-            if (_canExecute == null)
-                return true;
-
-            return _canExecute(_direction);
-        }
-
-        public void Execute(object? parameter)
-        {
-            _execute(_direction);
-        }
-
-        public void RaiseCanExecuteChanged()
-        {
-            if (CanExecuteChanged != null)
-            {
-                CanExecuteChanged(this, EventArgs.Empty);
-            }
-        }
+        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 }

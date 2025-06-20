@@ -6,31 +6,34 @@ using System.Threading.Tasks;
 
 namespace Snake.Models
 {
-    public struct Vector
+    /// <summary>
+    /// A 2D whole number vector.
+    /// </summary>
+    /// <param name="x">the offset in the x direction</param>
+    /// <param name="y">the offset in the y direction</param>
+    public readonly struct Vector(int x, int y)
     {
-        public Vector(int x, int y)
-        {
-            X = x; Y = y;
-        }
+        #region SOME DEFAULT VECTORS
+        public readonly static Vector UP = new(0, -1);
+        public readonly static Vector DOWN = new(0, 1);
+        public readonly static Vector RIGHT = new(1, 0);
+        public readonly static Vector LEFT = new(-1, 0);
+        #endregion
+
+
         public void Deconstruct(out int x, out int y)
         {
             x = X; y = Y;
         }
 
-        public int X { get; }
-        public int Y { get; }
+        public int X { get; } = x;
+        public int Y { get; } = y;
 
 
-        public static bool operator ==(Vector a, Vector b)
-        {
-            return a.Equals(b);
-        }
+        #region OPERATORS
+        public static bool operator ==(Vector a, Vector b) => a.Equals(b);
 
-
-        public static bool operator !=(Vector a, Vector b)
-        {
-            return !(a == b);
-        }
+        public static bool operator !=(Vector a, Vector b) => !(a == b);
 
         public static Vector operator +(Vector a, Vector b) => new(a.X + b.X, a.Y + b.Y);
 
@@ -39,27 +42,13 @@ namespace Snake.Models
         public static Vector operator *(Vector a, int factor) => new(a.X * factor, a.Y * factor);
 
         public static Vector operator *(int factor, Vector a) => new(a.X * factor, a.Y * factor);
- 
 
-        public override bool Equals(object? obj)
-        {
-            return obj is Vector vector &&
-                   X == vector.X &&
-                   Y == vector.Y;
-        }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(X, Y);
-        }
+        public override bool Equals(object? obj) => obj is Vector vector && X == vector.X && Y == vector.Y;
+
+        public override int GetHashCode() => HashCode.Combine(X, Y);
+        #endregion
 
         public override string ToString() => $"({X}, {Y})";
-
-
-        public readonly static Vector UP = new(0, -1);
-        public readonly static Vector DOWN = new(0, 1);
-        public readonly static Vector RIGHT = new(1, 0);
-        public readonly static Vector LEFT = new(-1, 0);
-
     }
 }

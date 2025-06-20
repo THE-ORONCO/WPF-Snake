@@ -7,13 +7,21 @@ using System.Threading.Tasks;
 
 namespace Snake.Models
 {
-    public interface GridEntity
+    /// <summary>
+    /// Something that can be placed on a grid
+    /// </summary>
+    public interface IGridEntity
     {
+        /// <summary>
+        /// The position on the grid.
+        /// </summary>
         public Vector Position { get; set; }
 
-        public bool IntersectsWith(GridEntity other)
-        {
-            return this.Position == other.Position;
-        }
+        /// <summary>
+        /// Check if this entity intersects with another entity
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool IntersectsWith(IGridEntity other) => Position == other.Position;
     }
 }

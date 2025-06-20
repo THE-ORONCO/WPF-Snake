@@ -24,13 +24,36 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-
-
+        <!--PLAY FIELD-->
+        <!--Borders -->
         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="3" CornerRadius="5"  Width="{Binding Width}" Height="{Binding Heigt}" MaxWidth="{Binding Width}" MaxHeight="{Binding Heigt}">
             <WrapPanel>
+                <!--#region SNAKE-->
+                <ItemsControl ItemsSource="{Binding Snake}"  >
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!--place the fruit at its coordinates and scale it by the grid size-->
+                            <Rectangle Width="{Binding GridSize}" Height="{Binding GridSize}" Canvas.Left ="{Binding X}" Canvas.Top="{Binding Y}" Fill="Blue"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!--#endregion-->
+                
+                <!--#region FRUITS-->
                 <ItemsControl ItemsSource="{Binding Fruits}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -43,36 +66,19 @@
                             <Setter Property="Canvas.Top" Value="{Binding Y}"/>
                         </Style>
                     </ItemsControl.ItemContainerStyle>
-
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
+                            <!--place the snake segment at its coordinates and scale it by the grid size-->
                             <Rectangle Width="{Binding GridSize}" Height="{Binding GridSize}" Canvas.Left ="{Binding X}" Canvas.Top="{Binding Y}" Fill="Red"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <ItemsControl ItemsSource="{Binding Snake}" Width="{Binding Width}" Height="{Binding Heigt}" MaxWidth="{Binding Width}" MaxHeight="{Binding Heigt}" Grid.Column="0">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ContentPresenter">
-                            <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                            <Setter Property="Canvas.Top" Value="{Binding Y}"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Rectangle Width="{Binding GridSize}" Height="{Binding GridSize}" Canvas.Left ="{Binding X}" Canvas.Top="{Binding Y}" Fill="Blue"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <!--#endregion-->
             </WrapPanel>
         </Border>
 
 
+        <!--#region SCORES-->
         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="3" CornerRadius="5" >
             <Grid  Margin="5px">
                 <Grid.RowDefinitions>
@@ -83,6 +89,7 @@
                 <Label Content="{Binding Score}" Grid.Row="1"/>
             </Grid>
         </Border>
+        <!--#endregion-->
     </Grid>
 
 

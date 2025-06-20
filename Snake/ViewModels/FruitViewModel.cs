@@ -8,20 +8,26 @@ using System.Threading.Tasks;
 
 namespace Snake.ViewModels
 {
-    public class FruitViewModel
+    /// <summary>
+    /// A view on a fruit.
+    /// </summary>
+    /// <param name="fruit">the fruit that this view model represents</param>
+    /// <param name="gridSize">the size of the grid</param>
+    public class FruitViewModel(Fruit fruit, int gridSize)
     {
-        public Fruit Fruit {  get; set; }
+        public Fruit Fruit { get; set; } = fruit;
 
+        public int GridSize { get; set; } = gridSize;
+        /// <summary>
+        /// The position on the x axis scaled by the grid size.
+        /// </summary>
         public int X  => (Fruit?.Position.X ?? 0) * GridSize;
 
+        /// <summary>
+        /// The position on the y axis scaled by the grid size.
+        /// </summary>
         public int Y => (Fruit?.Position.Y ?? 0) * GridSize;
-          
-        public int GridSize { get; set; }
 
-        public FruitViewModel(Fruit fruit, int gridSize)
-        {
-            Fruit = fruit;
-            GridSize = gridSize;
-        }
+
     }
 }

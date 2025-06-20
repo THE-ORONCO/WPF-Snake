@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using Snake.Models;
 
 namespace Snake.ViewModels
 {
+    /// <summary>
+    /// A Representation of a snake segment.
+    /// </summary>
     public class SnakeSegmentViewModel : INotifyPropertyChanged
     {
         private SnakeSegment? snakeSegment;
@@ -16,6 +14,7 @@ namespace Snake.ViewModels
             get => snakeSegment; set
             {
                 snakeSegment = value;
+                // subscribe to changes in the position of the underlying model
                 if (snakeSegment != null)
                 {
                     snakeSegment.MovedInDirection += MovedInDirection;
@@ -25,8 +24,14 @@ namespace Snake.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public SnakeSegmentViewModel Self { get => this; }
+        /// <summary>
+        /// The position of the segment on the x axis scaled by the grid size.
+        /// </summary>
         public int X => (snakeSegment?.position.X ?? 0) * GridSize;
+
+        /// <summary>
+        /// The position of the segment on the y axis scaled by the grid size.
+        /// </summary>
         public int Y => (snakeSegment?.position.Y ?? 0) * GridSize;
 
         private int gridSize { get; set; }
@@ -44,15 +49,14 @@ namespace Snake.ViewModels
 
         }
 
-        private void MovedInDirection(object? sender, Vector position)
-        {
-            PropertyChangedEventArgs r = position switch
-            {
-                (_, 0) => new PropertyChangedEventArgs(nameof(X)),
-                (0, _) => new PropertyChangedEventArgs(nameof(Y)),
-                _ => throw new Exception("somehow moved diagonally!!! very evil!"),
-            };
-            PropertyChanged?.Invoke(this, r);
-        }
+        private void MovedInDirection(object? sender, Vector position) =>
+            // emit a property changed signal if the position of the underlying segment changed
+            PropertyChanged?.Invoke(this,
+                                    position switch
+                                    {
+                                        (_, 0) => new PropertyChangedEventArgs(nameof(X)),
+                                        (0, _) => new PropertyChangedEventArgs(nameof(Y)),
+                                        _ => throw new Exception("somehow moved diagonally!!! very evil!"),
+                                    });
     }
 }

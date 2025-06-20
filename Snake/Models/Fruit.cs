@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Snake.Models
 {
-    public class Fruit : GridEntity
+    /// <summary>
+    /// A fruit that can be eaten by a snake.
+    /// </summary>
+    /// <param name="position">where the fruit is</param>
+    public class Fruit(Vector position) : IGridEntity
     {
-        public Vector Position { get ; set; }
-
-        public Fruit(Vector position)
-        {
-            Position = position;
-        }
+        public Vector Position { get; set; } = position;
     }
 }
