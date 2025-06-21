@@ -54,7 +54,8 @@ namespace Snake.Models
                     timer = new Timer(_ => Tick(), null, TimeSpan.Zero, TimeSpan.FromMilliseconds(tickRateMS));
                     Started?.Invoke(this, EventArgs.Empty);
                 }
-                else {
+                else
+                {
                     timer?.Dispose();
                     timer = null;
                     Finished?.Invoke(this, Score);
@@ -102,6 +103,11 @@ namespace Snake.Models
             Height = height;
         }
 
+        /// <summary>
+        /// Resets the Game to its initial state. 
+        /// No new Game is created instead because that would require rewiring all events that were subscribed to by the views. 
+        /// We could work around this with a Wrapper or something similar but I wanted to keep this project simple.
+        /// </summary>
         public void NewGame()
         {
             Fruits.Clear();
