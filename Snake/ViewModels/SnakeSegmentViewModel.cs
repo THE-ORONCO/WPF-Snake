@@ -27,12 +27,12 @@ namespace Snake.ViewModels
         /// <summary>
         /// The position of the segment on the x axis scaled by the grid size.
         /// </summary>
-        public int X => (snakeSegment?.position.X ?? 0) * GridSize;
+        public int X => (snakeSegment?.position.X ?? 0) * GridSize - GridSize/4;
 
         /// <summary>
         /// The position of the segment on the y axis scaled by the grid size.
         /// </summary>
-        public int Y => (snakeSegment?.position.Y ?? 0) * GridSize;
+        public int Y => (snakeSegment?.position.Y ?? 0) * GridSize - GridSize/4;
 
         private int gridSize { get; set; }
         public int GridSize

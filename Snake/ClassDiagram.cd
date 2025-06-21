@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Comment CommentText="Models">
+    <Position X="4.278" Y="5.53" Height="0.291" Width="8.063" />
+  </Comment>
+  <Comment CommentText="View Models">
+    <Position X="13.776" Y="5.47" Height="0.308" Width="8.696" />
+  </Comment>
+  <Comment CommentText="Views">
+    <Position X="23.551" Y="5.412" Height="0.291" Width="2.416" />
+  </Comment>
+  <Class Name="Snake.Models.Head">
+    <Position X="8.25" Y="19.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Head.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Snake.Models.PlayField">
+    <Position X="8.5" Y="6.75" Width="3.5" />
+    <AssociationLine Name="Fruits" Type="Snake.Models.Fruit" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="9.062" Y="14.016" />
+        <Point X="9.062" Y="15.052" />
+        <Point X="10.5" Y="15.052" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ACQIQgAAFCAQAQiDAAQIAEAABAKAAAAIAASAAAgAQRA=</HashCode>
+      <FileName>Models\PlayField.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SnakeHead" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Fruits" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Snake.Models.SnakeSegment">
+    <Position X="9" Y="16.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AgAIACAAAKAAAAAgAAAAIAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\SnakeSegment.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Next" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Snake.Models.Tail">
+    <Position X="10.5" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Tail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Snake.ViewModels.DirectionalCommand" BaseTypeListCollapsed="true">
+    <Position X="14" Y="8" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAACIAQAAEAEAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\DirectionalCommand.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="direction" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Snake.ViewModels.FruitViewModel">
+    <Position X="14.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAYAA=</HashCode>
+      <FileName>ViewModels\FruitViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Fruit" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Snake.ViewModels.PlayFieldViewModel" BaseTypeListCollapsed="true">
+    <Position X="18.25" Y="6.75" Width="4" />
+    <AssociationLine Name="Fruits" Type="Snake.ViewModels.FruitViewModel" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="19.75" Y="11.324" />
+        <Point X="19.75" Y="15.274" />
+        <Point X="15.75" Y="15.274" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="StartGame" Type="Snake.ViewModels.StartGameCommand" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="19" Y="11.324" />
+        <Point X="19" Y="13.124" />
+        <Point X="18" Y="13.124" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAEEAgAAAAAAAAkBAAAgAVAgoAAIAACIQAIAAAIAAQA=</HashCode>
+      <FileName>ViewModels\PlayFieldViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="playField" />
+      <Property Name="MoveDown" />
+      <Property Name="MoveLeft" />
+      <Property Name="MoveRight" />
+      <Property Name="MoveUp" />
+      <Property Name="StartGame" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Fruits" />
+      <Property Name="Snake" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Snake.ViewModels.SnakeSegmentViewModel" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="16.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAgAAAAAAAAwAAAAIAYAA=</HashCode>
+      <FileName>ViewModels\SnakeSegmentViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Segment" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Snake.Views.PlayFieldView" BaseTypeListCollapsed="true">
+    <Position X="23.5" Y="6.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\PlayFieldView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Snake.Models.Fruit" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Fruit.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Snake.ViewModels.StartGameCommand">
+    <Position X="16.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAEAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\StartGameCommand.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="PlayField" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Struct Name="Snake.Models.Vector">
+    <Position X="4.5" Y="15.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAE4AEAgAAAAAICAIAgAAAAAAAAYiA=</HashCode>
+      <FileName>Models\Vector.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="Snake.Models.IGridEntity">
+    <Position X="4.75" Y="13" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\GridEntity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Position" />
+    </ShowAsAssociation>
+  </Interface>
+  <Enum Name="Snake.ViewModels.Direction">
+    <Position X="14.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAICAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\DirectionalCommand.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

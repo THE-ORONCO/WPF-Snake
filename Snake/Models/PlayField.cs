@@ -38,10 +38,30 @@ namespace Snake.Models
         /// </summary>
         public event EventHandler<uint>? ScoreUpdated;
 
+        public event EventHandler? Started;
+        public event EventHandler<uint>? Finished;
+
         /// <summary>
         /// The timer that defines the tick rate of the game.
         /// </summary>
-        private readonly Timer timer;
+        private Timer? timer;
+        public bool Running
+        {
+            get => timer != null; set
+            {
+                if (value && timer == null)
+                {
+                    timer = new Timer(_ => Tick(), null, TimeSpan.Zero, TimeSpan.FromMilliseconds(tickRateMS));
+                    Started?.Invoke(this, EventArgs.Empty);
+                }
+                else {
+                    timer?.Dispose();
+                    timer = null;
+                    Finished?.Invoke(this, Score);
+                }
+            }
+        }
+
 
         /// <summary>
         /// A direction Input buffer that stores the direction that will be used on the next tick.
@@ -49,6 +69,8 @@ namespace Snake.Models
         private Vector nextDirection = Vector.RIGHT;
 
 
+        public int tickRateMS = 64;
+        public uint NumberOfStartSegments { get; set; } = 3;
         public Vector StartPosition { get; private set; } = new(1, 1);
         public Vector StartDirection { get; private set; } = Vector.RIGHT;
         public int Width { get; private set; }
@@ -66,6 +88,7 @@ namespace Snake.Models
         }
 
         private readonly Random random = new();
+
         /// <summary>
         /// Creates a play field.
         /// </summary>
@@ -73,15 +96,20 @@ namespace Snake.Models
         /// <param name="width">The width of the play field.</param>
         /// <param name="height">The height of the play field.</param>
         /// <param name="tickRateMS">The tick rate (in milliseconds).</param>
-        public PlayField(List<Fruit> fruits, int width = 20, int height = 20, int tickRateMS = 64)
+        public PlayField(int width = 20, int height = 20)
         {
-            if (fruits != null)
-            {
-                Fruits.AddRange(fruits);
-            }
-            timer = new Timer(_ => Tick(), null, TimeSpan.Zero, TimeSpan.FromMilliseconds(tickRateMS));
             Width = width;
             Height = height;
+        }
+
+        public void NewGame()
+        {
+            Fruits.Clear();
+            SnakeHead = null;
+            StartDirection = Vector.RIGHT;
+            nextDirection = StartDirection;
+            Score = 0;
+            AddSegments(NumberOfStartSegments);
         }
 
         /// <summary>
@@ -110,7 +138,8 @@ namespace Snake.Models
             // check if the snake can actually move
             if (!SnakeHead.CanMove(SnakeHead.Direction) || !WithinBounds(SnakeHead.NextPosition))
             {
-                Trace.WriteLine("Bonk!");
+                Trace.WriteLine("Game Finished!");
+                Running = false;
                 return; // TODO end game
             }
 
@@ -237,5 +266,7 @@ namespace Snake.Models
                 _ => throw new NotImplementedException("This cannot happen (unless a 3rd dimension is added)!"),
             };
         }
+
+        public void Start() => Running = true;
     }
 }

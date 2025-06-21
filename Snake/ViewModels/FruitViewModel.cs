@@ -21,12 +21,12 @@ namespace Snake.ViewModels
         /// <summary>
         /// The position on the x axis scaled by the grid size.
         /// </summary>
-        public int X  => (Fruit?.Position.X ?? 0) * GridSize;
+        public int X  => (Fruit?.Position.X ?? 0) * GridSize - GridSize/4;
 
         /// <summary>
         /// The position on the y axis scaled by the grid size.
         /// </summary>
-        public int Y => (Fruit?.Position.Y ?? 0) * GridSize;
+        public int Y => (Fruit?.Position.Y ?? 0) * GridSize - GridSize/4;
 
 
     }
