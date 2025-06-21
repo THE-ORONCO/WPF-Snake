@@ -84,6 +84,12 @@
         <Point X="15.75" Y="15.274" />
       </Path>
     </AssociationLine>
+    <AssociationLine Name="MoveLeft" Type="Snake.ViewModels.DirectionalCommand" FixedFromPoint="true">
+      <Path>
+        <Point X="18.25" Y="8.938" />
+        <Point X="16.75" Y="8.938" />
+      </Path>
+    </AssociationLine>
     <AssociationLine Name="StartGame" Type="Snake.ViewModels.StartGameCommand" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="19" Y="11.324" />
@@ -97,15 +103,15 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="playField" />
-      <Property Name="MoveDown" />
-      <Property Name="MoveLeft" />
       <Property Name="MoveRight" />
+      <Property Name="MoveLeft" />
       <Property Name="MoveUp" />
+      <Property Name="MoveDown" />
       <Property Name="StartGame" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="Fruits" />
       <Property Name="Snake" />
+      <Property Name="Fruits" />
     </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" />
   </Class>

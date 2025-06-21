@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Snake"
         xmlns:views="clr-namespace:Snake.Views"
         mc:Ignorable="d"
-        Title="MainWindow" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+        Title="WPF-Snake" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <views:PlayFieldView/>
 </Window>
 

@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Snake.ViewModels
 {
-    class StartGameCommand(PlayField playField) : ICommand
+    public class StartGameCommand(PlayField playField) : ICommand
     {
         public event EventHandler? CanExecuteChanged;
         private readonly PlayField PlayField = playField;

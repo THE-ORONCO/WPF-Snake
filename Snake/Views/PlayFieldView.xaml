@@ -20,6 +20,7 @@
         <KeyBinding Key="Left" Command="{Binding MoveLeft}"/>
         <KeyBinding Key="D" Command="{Binding MoveRight}"/>
         <KeyBinding Key="Right" Command="{Binding MoveRight}"/>
+        <KeyBinding Key="Space" Command="{Binding StartGame}"/>
     </UserControl.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
